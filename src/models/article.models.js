@@ -11,11 +11,13 @@ const ArticleModel = sequelize.define('Article', {
     allowNull: false
   },
   excerpt: {
-    type: DataTypes.STRING(500)
+    type: DataTypes.STRING(500),
+    allowNull: false
   },
   status: {
     type: DataTypes.ENUM('published', 'archived'),
-    defaultValue: 'published'
+    defaultValue: 'published',
+    allowNull: false
   }
 },{
   timestamps: true,
