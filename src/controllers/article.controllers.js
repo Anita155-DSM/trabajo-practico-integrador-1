@@ -76,3 +76,4 @@ export const deleteArticle = async (req, res) => {
     res.status(500).json({ error: "Error eliminando artículo" });
   }
 };
+//rutas de artículos: ver todos, ver por id, crear, editar, borrar (con permisos)

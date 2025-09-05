@@ -4,7 +4,14 @@ import sequelize from './src/config/database.js';
 //modelos solo de prueba de generacion de tablas
 import './src/models/index.js';
 import cookieParser from "cookie-parser";
+
+//rutas importaciones
 import routerAuth from "./src/routes/auth.router.js";
+//import userRoutes from "./src/routes/user.routes.js";
+//import profileRoutes from "./src/routes/profile.routes.js";
+//import articleRoutes from "./src/routes/article.routes.js";
+//import tagRoutes from "./src/routes/tag.routes.js";
+//import articleTagRoutes from "./src/routes/articleTag.routes.js";
 
 
 
@@ -17,7 +24,6 @@ app.use(express.json());
 
 app.use(cookieParser());
 
-//futuras rutas
 // Rutas
 app.use('/api/auth', routerAuth);
 
