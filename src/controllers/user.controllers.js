@@ -1,58 +1,34 @@
-import UserModel from "../models/user.models.js";
-import bcrypt from "bcrypt";
-
-// Crear usuario (solo admin, aunque normalmente se usa register en auth)
-export const createUser = async (req, res) => {
-  try {
-    const { username, email, password, role } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const user = await UserModel.create({ username, email, password: hashedPassword, role });
-    res.status(201).json(user);
-  } catch (err) {
-    res.status(500).json({ error: "Error al crear usuario" });
-  }
-};
+import { UserModel, ProfileModel } from "../models/index.js";
 
 export const getUsers = async (req, res) => {
   try {
-    const users = await UserModel.findAll();
+    const users = await UserModel.findAll({
+      include: [{ model: ProfileModel, as: "profile" }]
+    });
     res.json(users);
   } catch (err) {
-    res.status(500).json({ error: "Error al obtener usuarios" });
+    res.status(500).json({ error: "Error obteniendo usuarios" });
   }
 };
 
 export const getUserById = async (req, res) => {
   try {
-    const user = await UserModel.findByPk(req.params.id);
+    const user = await UserModel.findByPk(req.params.id, {
+      include: [{ model: ProfileModel, as: "profile" }]
+    });
     if (!user) return res.status(404).json({ error: "Usuario no encontrado" });
     res.json(user);
   } catch (err) {
-    res.status(500).json({ error: "Error al obtener usuario" });
+    res.status(500).json({ error: "Error obteniendo usuario" });
   }
 };
 
-export const updateUser = async (req, res) => {
-  try {
-    const user = await UserModel.findByPk(req.params.id);
-    if (!user) return res.status(404).json({ error: "Usuario no encontrado" });
-
-    await UserModel.update(req.body);
-    res.json(user);
-  } catch (err) {
-    res.status(500).json({ error: "Error al actualizar usuario" });
-  }
-};
-  
 export const deleteUser = async (req, res) => {
   try {
-    const user = await UserModel.findByPk(req.params.id);
-    if (!user) return res.status(404).json({ error: "Usuario no encontrado" });
-
-    await UserModel.destroy();
-    res.json({ message: "Usuario eliminado" });
+    const deleted = await UserModel.destroy({ where: { id: req.params.id } });
+    if (!deleted) return res.status(404).json({ error: "Usuario no encontrado" });
+    res.json({ msg: "Usuario eliminado" });
   } catch (err) {
-    res.status(500).json({ error: "Error al eliminar usuario" });
+    res.status(500).json({ error: "Error eliminando usuario" });
   }
 };

@@ -1,53 +1,22 @@
-import TagModel from "../models/tag.models.js";
+import { TagModel, ArticleModel } from "../models/index.js";
 
 export const createTag = async (req, res) => {
   try {
-    const tag = await TagModel.create(req.body);
+    const { name } = req.body;
+    const tag = await TagModel.create({ name });
     res.status(201).json(tag);
   } catch (err) {
-    res.status(500).json({ error: "Error al crear tag" });
+    res.status(500).json({ error: "Error creando tag" });
   }
 };
 
 export const getTags = async (req, res) => {
   try {
-    const tags = await TagModel.findAll();
+    const tags = await TagModel.findAll({
+      include: [{ model: ArticleModel, as: "articles" }]
+    });
     res.json(tags);
   } catch (err) {
-    res.status(500).json({ error: "Error al obtener tags" });
-  }
-};
-
-export const getTagById = async (req, res) => {
-  try {
-    const tag = await TagModel.findByPk(req.params.id);
-    if (!tag) return res.status(404).json({ error: "Tag no encontrado" });
-    res.json(tag);
-  } catch (err) {
-    res.status(500).json({ error: "Error al obtener tag" });
-  }
-};
-
-export const updateTag = async (req, res) => {
-  try {
-    const tag = await TagModel.findByPk(req.params.id);
-    if (!tag) return res.status(404).json({ error: "Tag no encontrado" });
-
-    await TagModel.update(req.body);
-    res.json(TagModel);
-  } catch (err) {
-    res.status(500).json({ error: "Error al actualizar tag" });
-  }
-};
-
-export const deleteTag = async (req, res) => {
-  try {
-    const tag = await TagModel.findByPk(req.params.id);
-    if (!tag) return res.status(404).json({ error: "Tag no encontrado" });
-
-    await TagModel.destroy();
-    res.json({ message: "Tag eliminado" });
-  } catch (err) {
-    res.status(500).json({ error: "Error al eliminar tag" });
+    res.status(500).json({ error: "Error obteniendo tags" });
   }
 };
