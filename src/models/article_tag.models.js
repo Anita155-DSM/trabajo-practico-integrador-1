@@ -19,7 +19,8 @@ const Article_Tag = sequelize.define("Article_Tag", {
     onDelete: "CASCADE"
   }
 }, {
-  timestamps: true
+  timestamps: true,
+  underscored: true
 });
 
 export default Article_Tag;

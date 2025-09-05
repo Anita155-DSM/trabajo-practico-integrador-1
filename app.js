@@ -8,6 +8,10 @@ import './src/models/article.models.js';
 import './src/models/tag.models.js';
 import './src/models/article_tag.models.js';
 import { TagModel, UserModel, ArticleModel, ProfileModel, Article_Tag } from './src/models/index.js'
+import cookieParser from "cookie-parser";
+import routerAuth from "./src/routes/auth.router.js";
+
+
 
 dotenv.config();
 
@@ -16,9 +20,14 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-//futuras rutas
+app.use(cookieParser());
 
-// Autenticación y sincronización de la base de datos
+//futuras rutas
+// Rutas
+app.use('/api/auth', routerAuth);
+
+
+// Conexión a la base de datos y sincronización de modelos
 
 sequelize.authenticate().then(() => {
   console.log('Conexión a la base de datos establecida');
