@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import sequelize from './src/config/database.js';
 //modelos solo de prueba de generacion de tablas
 import './src/models/index.js';
@@ -7,11 +8,11 @@ import cookieParser from "cookie-parser";
 
 //rutas importaciones
 import routerAuth from "./src/routes/auth.router.js";
-//import userRoutes from "./src/routes/user.routes.js";
-//import profileRoutes from "./src/routes/profile.routes.js";
-//import articleRoutes from "./src/routes/article.routes.js";
-//import tagRoutes from "./src/routes/tag.routes.js";
-//import articleTagRoutes from "./src/routes/articleTag.routes.js";
+import routerUser from './src/routes/user.router.js';
+import routerProfile from './src/routes/profile.router.js';
+import routerArticle from './src/routes/article.router.js';
+import routerTag from './src/routes/tag.router.js';
+import routerArticleTag from './src/routes/article_tag.router.js';
 
 
 
@@ -21,11 +22,19 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
-
-app.use(cookieParser());
+app.use(cors({                         //esto sacado de la documentacion del profe
+origin: "http://localhost:5173",
+credentials: true // CRUCIAL: permitir cookies
+}));
+app.use(cookieParser()); // NECESARIO: para leer req.cookies
 
 // Rutas
 app.use('/api/auth', routerAuth);
+app.use('/api/users', routerUser);
+app.use('/api/profiles', routerProfile);
+app.use('/api/articles', routerArticle);
+app.use('/api/tags', routerTag);
+app.use('/api/article-tags', routerArticleTag);
 
 // Conexión a la base de datos y sincronización de modelos
 

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { createTag, getTags } from "../controllers/tag.controllers.js";
-import { authMiddleware, authAdminMiddleware } from "../middlewares/auth.middleware.js";
+import { authMiddleware, authAdminMiddleware } from "../middlewares/authMiddleware.js";
 
 const routerTag = Router();
 
