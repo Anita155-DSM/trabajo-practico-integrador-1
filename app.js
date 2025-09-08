@@ -40,7 +40,7 @@ app.use('/api/article-tags', routerArticleTag);
 
 sequelize.authenticate().then(() => {
   console.log('Conexión a la base de datos establecida');
-  return sequelize.sync({ force: true }); //el force sacar cuando termine el tp
+  return sequelize.sync(); //el force saco cuando termino el tp: sequelize.sync({ force: true })
 }).then(() => {
   app.listen(PORT, () => {
     console.log(`SERVIDOR CORRIENDO EN ${PORT}`);

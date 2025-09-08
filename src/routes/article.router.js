@@ -21,10 +21,10 @@ routerArticle.get("/:id", authMiddleware, getArticleById);
 routerArticle.post("/", authMiddleware, createArticle);
 
 // Editar artículo (dueño o admin)
-routerArticle.put("/:id", authMiddleware, authOwnerMiddleware, authAdminMiddleware, updateArticle);
+routerArticle.put("/:id", authMiddleware, authOwnerMiddleware, updateArticle);
 
 // Borrar artículo (dueño o admin)
-routerArticle.delete("/:id", authMiddleware, authOwnerMiddleware, authAdminMiddleware, deleteArticle);
+routerArticle.delete("/:id", authMiddleware, authOwnerMiddleware, deleteArticle);
 
 export default routerArticle;
 //rutas de artículos: ver todos, ver por id, crear, editar, borrar (con permisos)
